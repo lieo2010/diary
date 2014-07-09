@@ -45,13 +45,13 @@ gem install fpm
 - 使用fpm编译生成rpm包
 
 ```
-    fpm -s dir -t rpm -n "htop-kingnet" -v 1.0.3 /tmp/htop
+    fpm -s dir -t rpm -n "htop-lieo" -v 1.0.3 /tmp/htop
 ```
     
 note: 如果是要增加软件依赖则加入-d "soft", -e 参数是先预览更改spec配置，然后再编译，-s指定数据来源于目录，-t rpm指生成rpm包，-n 生成的软件包名字，-v 指定软件版本，如下：
 
 ```
-    fpm -s dir -t rpm -n "htop-kingnet" -v 1.0.3 -d "http" -e /tmp/htop
+    fpm -s dir -t rpm -n "htop-lieo" -v 1.0.3 -d "http" -e /tmp/htop
 ```
 note:   当前目录会生成一个htop-1.0.3-1.x86_64.rpm
 
@@ -80,7 +80,7 @@ createrepo -d  /yum/centos/6/x86_64
 server {
 
    listen 80;
-   server_name yum.kingnet.com;
+   server_name yum.lieo.com;
 
    location / {
          root /yum;
@@ -93,9 +93,9 @@ server {
 - 配置yum的源
 
 ```
-[kingnet_repo]
-name=kingnet repo
-baseurl=http://yum.kingnet.com/centos/6/$basearch/
+[lieo_repo]
+name=lieo repo
+baseurl=http://yum.lieo.com/centos/6/$basearch/
 gpgcheck=0
 enabled=1
 ```
