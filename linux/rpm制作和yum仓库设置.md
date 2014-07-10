@@ -107,3 +107,46 @@ note:由于没有配置gpg，所以要将gpgcheck设置为0.
 createrepo --update /yum/centos/6/x86_64/
 ```
 
+- 增加EPEL安装源
+  - 下载并安装GPG key
+  ```ruby
+  $ sudo wget -O /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6 https://www.fedoraproject.org/static/0608B895.txt
+  $ sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+  ```
+
+  - 检验下是否安装成功
+  ```ruby
+  $ sudo rpm -qa gpg*
+  ```
+
+  - 安装epel-release-6-8.noarch包
+  ```ruby
+  $ sudo rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+  ```
+
+- 增加PUIAS安装源
+  - 创建/etc/yum.repos.d/PUIAS_6_computational.repo，并添加如下内容：
+  ```ruby
+  [PUIAS_6_computational]
+  name=PUIAS computational Base $releasever - $basearch
+  mirrorlist=http://puias.math.ias.edu/data/puias/computational/$releasever/$basearch/mirrorlist
+  #baseurl=http://puias.math.ias.edu/data/puias/computational/$releasever/$basearch
+  gpgcheck=1
+  gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puias
+  ```
+  
+  - 下载并安装GPG key
+  ```ruby
+  $ sudo wget -O /etc/pki/rpm-gpg/RPM-GPG-KEY-puias http://springdale.math.ias.edu/data/puias/6/x86_64/os/RPM-GPG-KEY-puias
+  $ sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-puias
+  ```
+
+  - 检验下是否安装成功
+  ```ruby
+  $ sudo rpm -qa gpg*
+  ```
+
+- Tips：安装完EPEL和PUIAS两个源后，可以检测下：
+```ruby
+$ sudo yum repolist
+```
