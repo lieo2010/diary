@@ -55,6 +55,48 @@ note: 如果是要增加软件依赖则加入-d "soft", -e 参数是先预览更
 ```
 note:   当前目录会生成一个htop-1.0.3-1.x86_64.rpm
 
+## python 打包实例##
+
+1. 首先，下载 Python-2.7.6 的源码包并解压：
+```python
+curl --progress-bar -LO http://mirrors.sohu.com/python/2.7.6/Python-2.7.6.tgz
+tar xf Python-2.7.6.tgz
+```
+
+2. 第二步，编译 Python-2.7.6
+```python
+cd Python-2.7.6.tgz
+
+# Python2.7编译安装后会安装到这个目录，方便打包
+export INTERMEDIATE_INSTALL_DIR=/tmp/installdir-Python-2.7.6
+# RPM包安装后Python2.7的目录
+export INSTALL_DIR=/usr/local
+
+LDFLAGS="-Wl,-rpath=${INSTALL_DIR}/lib ${LDFLAGS}" \
+            ./configure --prefix=${INSTALL_DIR} --enable-unicode=ucs4 \
+                --enable-shared --enable-ipv6
+make
+make install DESTDIR=${INTERMEDIATE_INSTALL_DIR}
+```
+
+3. 第三步，使用 FPM 创建 RPM 包：
+```python
+# 注意之前导出 INTERMEDIATE_INSTALL_DIR 和 INSTALL_DIR 这两个环境变量，这里还要使用
+fpm -s dir -t -f rpm -n python27 -v '2.7.6' \
+    -d 'openssl' \
+    -d 'bzip2' \
+    -d 'zlib' \
+    -d 'expat' \
+    -d 'db4' \
+    -d 'sqlite' \
+    -d 'ncurses' \
+    -d 'readline' \
+    --directories=${INSTALL_DIR}/lib/python2.7/ \
+    --directories=${INSTALL_DIR}/include/python2.7/ \
+    -C ${INTERMEDIATE_INSTALL_DIR} .
+```
+
+
 ---
 - yum仓库搭建
 
