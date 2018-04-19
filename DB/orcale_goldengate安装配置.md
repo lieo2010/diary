@@ -36,7 +36,7 @@ export PATH
 创建ogg相关目录
 ---
 ```
-[root@IDC-BX-DBtest-172-26-3-242 og]# ./ggsci
+[root@IDC-BX-DBtest-master og]# ./ggsci
 ```
 
 ```
